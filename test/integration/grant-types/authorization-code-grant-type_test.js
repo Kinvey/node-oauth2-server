@@ -7,6 +7,7 @@
 var AuthorizationCodeGrantType = require('../../../lib/grant-types/authorization-code-grant-type');
 var InvalidArgumentError = require('../../../lib/errors/invalid-argument-error');
 var InvalidGrantError = require('../../../lib/errors/invalid-grant-error');
+var InvalidClientError = require('../../../lib/errors/invalid-client-error');
 var InvalidRequestError = require('../../../lib/errors/invalid-request-error');
 var Promise = require('bluebird');
 var Request = require('../../../lib/request');
@@ -316,8 +317,8 @@ describe('AuthorizationCodeGrantType integration', function() {
       return grantType.getAuthorizationCode(request, client)
         .then(should.fail)
         .catch(function(e) {
-          e.should.be.an.instanceOf(InvalidGrantError);
-          e.message.should.equal('Invalid grant: authorization code is invalid');
+          e.should.be.an.instanceOf(InvalidClientError);
+          e.message.should.equal('Invalid client: Client is not valid for this authorization code.');
         });
     });
 
