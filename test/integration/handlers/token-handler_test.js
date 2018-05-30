@@ -784,7 +784,9 @@ describe('TokenHandler integration', function() {
       var client = { grants: ['password'] };
       var model = {
         getClient: function(clientId, password, callback) { callback(null, client); },
-        getUser: function(uid, pwd, callback) { callback(); },
+        getUser: function(uid, pwd, req, callback) {
+          callback();
+          },
         saveToken: function() {}
       };
       var handler = new TokenHandler({ accessTokenLifetime: 120, model: model, refreshTokenLifetime: 120 });
