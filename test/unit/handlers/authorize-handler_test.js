@@ -48,8 +48,9 @@ describe('AuthorizeHandler', function() {
       return handler.getClient(request)
         .then(function() {
           model.getClient.callCount.should.equal(1);
-          model.getClient.firstCall.args.should.have.length(2);
+          model.getClient.firstCall.args.should.have.length(3);
           model.getClient.firstCall.args[0].should.equal(12345);
+          model.getClient.firstCall.args[2].should.equal(request);
           model.getClient.firstCall.thisValue.should.equal(model);
         })
         .catch(should.fail);
