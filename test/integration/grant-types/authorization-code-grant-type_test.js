@@ -130,6 +130,30 @@ describe('AuthorizationCodeGrantType integration', function() {
       }
     });
 
+    it('should call optional token processing function', function() {
+      var client = { id: 'foobar' };
+      var token = {};
+      var model = {
+        getAuthorizationCode: function() { return { authorizationCode: 12345, client: { id: 'foobar' }, expiresAt: new Date(new Date() * 2), user: {} }; },
+        revokeAuthorizationCode: function() { return true; },
+        additionalAuthCodeProcessing: function(){
+          token.additionProcessingField = true;
+          return token;
+        },
+        saveToken: function() { return token; },
+        validateScope: function() { return 'foo'; }
+      };
+      var grantType = new AuthorizationCodeGrantType({ accessTokenLifetime: 123, model: model });
+      var request = new Request({ body: { code: 12345 }, headers: {}, method: {}, query: {} });
+
+      return grantType.handle(request, client)
+        .then(function(data) {
+          data.should.equal(token);
+          data.additionProcessingField.should.eql(true);
+        })
+        .catch(should.fail);
+    });
+
     it('should return a token', function() {
       var client = { id: 'foobar' };
       var token = {};
