@@ -33,7 +33,7 @@ describe('AuthorizeHandler', function() {
         allowEmptyState: true,
         model: model
       });
-      
+
       var request = new Request({
         body: { client_id: '123', response_type: 'code' },
         headers: {},
@@ -41,7 +41,7 @@ describe('AuthorizeHandler', function() {
         query: {}
       });
       var response = new Response({});
-      
+
       return handler.handle(request, response)
         .then(function() {
           model.request.should.equal(request);
