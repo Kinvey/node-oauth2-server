@@ -785,7 +785,7 @@ describe('TokenHandler integration', function() {
       var client = { grants: ['password'] };
       var model = {
         getClient: function(clientId, password, callback) { callback(null, client); },
-        getUser: function(uid, pwd, req, callback) {
+        getUser: function(uid, pwd, callback) {
           callback();
         },
         saveToken: function() {}

@@ -126,7 +126,7 @@ describe('CodeResponseType integration', function() {
     it('should support promises', function() {
       var model = {
         generateAuthorizationCode: function() {
-          return Promise.resolve({});
+          return Promise.resolve({success:true});
         },
         getAccessToken: function() {},
         getClient: function() {},
@@ -134,13 +134,15 @@ describe('CodeResponseType integration', function() {
       };
       var handler = new CodeResponseType({ authorizationCodeLifetime: 120, model: model });
 
-      handler.generateAuthorizationCode().should.be.an.instanceOf(Promise);
+      handler.generateAuthorizationCode().then((result)=>{
+        result.should.have.property('success', true);
+      });
     });
 
     it('should support non-promises', function() {
       var model = {
         generateAuthorizationCode: function() {
-          return {};
+          return {success:true};
         },
         getAccessToken: function() {},
         getClient: function() {},
@@ -148,7 +150,9 @@ describe('CodeResponseType integration', function() {
       };
       var handler = new CodeResponseType({ authorizationCodeLifetime: 120, model: model });
 
-      handler.generateAuthorizationCode().should.be.an.instanceOf(Promise);
+      handler.generateAuthorizationCode().then((result)=>{
+        result.should.have.property('success', true);
+      });
     });
   });
 
@@ -189,12 +193,14 @@ describe('CodeResponseType integration', function() {
         getAccessToken: function() {},
         getClient: function() {},
         saveAuthorizationCode: function() {
-          return Promise.resolve({});
+          return Promise.resolve({success:true});
         }
       };
       var handler = new CodeResponseType({ authorizationCodeLifetime: 120, model: model });
 
-      handler.saveAuthorizationCode('foo', 'bar', 'biz', 'baz').should.be.an.instanceOf(Promise);
+      handler.saveAuthorizationCode('foo', 'bar', 'biz', 'baz').then((result)=>{
+        result.should.have.property('success', true);
+      });
     });
 
     it('should support non-promises when calling `model.saveAuthorizationCode()`', function() {
@@ -202,12 +208,14 @@ describe('CodeResponseType integration', function() {
         getAccessToken: function() {},
         getClient: function() {},
         saveAuthorizationCode: function() {
-          return {};
+          return {success:true};
         }
       };
       var handler = new CodeResponseType({ authorizationCodeLifetime: 120, model: model });
 
-      handler.saveAuthorizationCode('foo', 'bar', 'biz', 'baz').should.be.an.instanceOf(Promise);
+      handler.saveAuthorizationCode('foo', 'bar', 'biz', 'baz').then((result)=>{
+        result.should.have.property('success', true);
+      });
     });
   });
 
