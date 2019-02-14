@@ -92,7 +92,7 @@ describe('AuthorizationCodeGrantType integration', function() {
         e.message.should.equal('Missing parameter: `request`');
       }
     });
-    
+
     it('should throw an error if `client` is invalid', function() {
       var client = {};
       var model = {
@@ -112,7 +112,7 @@ describe('AuthorizationCodeGrantType integration', function() {
     });
 
     it('should throw an error if `client` is missing', function() {
-      
+
       var model = {
         getAuthorizationCode: function() { return { authorizationCode: 12345, expiresAt: new Date(new Date() * 2), user: {} }; },
         revokeAuthorizationCode: function() {},
@@ -136,10 +136,6 @@ describe('AuthorizationCodeGrantType integration', function() {
       var model = {
         getAuthorizationCode: function() { return { authorizationCode: 12345, client: { id: 'foobar' }, expiresAt: new Date(new Date() * 2), user: {} }; },
         revokeAuthorizationCode: function() { return true; },
-        additionalAuthCodeProcessing: function(){
-          token.additionProcessingField = true;
-          return token;
-        },
         saveToken: function() { return token; },
         validateScope: function() { return 'foo'; }
       };
@@ -149,7 +145,6 @@ describe('AuthorizationCodeGrantType integration', function() {
       return grantType.handle(request, client)
         .then(function(data) {
           data.should.equal(token);
-          data.additionProcessingField.should.eql(true);
         })
         .catch(should.fail);
     });
